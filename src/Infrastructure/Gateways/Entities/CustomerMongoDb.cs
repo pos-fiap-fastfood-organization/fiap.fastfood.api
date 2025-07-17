@@ -6,8 +6,8 @@ namespace Infrastructure.Gateways.Entities;
 public class CustomerMongoDb : MongoEntity
 {
     public string? CPF { get; set; }
-    public string? Name { get; private set; }
-    public string? Email { get; private set; }
+    public string? Name { get; set; }
+    public string? Email { get; set; }
 
     public static CustomerMongoDb Create(Customer customer)
     {
@@ -15,8 +15,7 @@ public class CustomerMongoDb : MongoEntity
         {
             CPF = customer.CPF,
             Name = customer.Name,
-            Email = customer.Email,
-            Created = customer.Created
+            Email = customer.Email
         };
     }
 

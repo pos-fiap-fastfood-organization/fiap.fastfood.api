@@ -2,7 +2,7 @@ db = db.getSiblingDB('fiap_fastfood');
 
 db.createUser({
   user: "fastfood_user",
-  pwd: "Fastfood2025!",
+  pwd: "Fastfood2025",
   roles: [ { role: "readWrite", db: "fiap_fastfood" } ]
 });
 
