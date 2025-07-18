@@ -4,18 +4,20 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8080
+EXPOSE 8081
 
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src//Api/Api.csproj", "src/Api/"]
-RUN dotnet restore "./src/Api/Api.csproj"
+COPY ["src/Drivers/Api/Api.csproj", "src/Drivers/Api/"]
+COPY ["src/Core/Core.csproj", "src/Core/"]
+COPY ["src/Drivers/Infrastructure/Infrastructure.csproj", "src/Drivers/Infrastructure/"]
+RUN dotnet restore "./src/Drivers/Api/Api.csproj"
 COPY . .
-WORKDIR "/src/src/Api"
+WORKDIR "/src/src/Drivers/Api"
 RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
