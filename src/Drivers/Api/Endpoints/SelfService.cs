@@ -6,11 +6,11 @@ namespace Api.Endpoints;
 
 [ApiController]
 [Route("[controller]")]
-public class SelfServiceEndpoint : ControllerBase
+public class SelfService : ControllerBase
 {
     private readonly ICustomerController _customerController;
 
-    public SelfServiceEndpoint(ICustomerController customerController)
+    public SelfService(ICustomerController customerController)
     {
         _customerController = customerController;
     }

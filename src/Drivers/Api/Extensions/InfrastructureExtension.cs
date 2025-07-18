@@ -16,10 +16,12 @@ public static class InfrastructureExtension
     {
         services
             .AddSingleton<ICustomerGateway, CustomerGatewayConverter>()
+            .AddSingleton<IMenuGateway, MenuGatewayConverter>()
             ;
 
         services
             .AddSingleton<ICustomerMongoDbGateway, CustomerMongoDbGateway>()
+            .AddSingleton<IMenuMongoDbGateway, MenuMongoDbGateway>()
             ;
 
         return services;

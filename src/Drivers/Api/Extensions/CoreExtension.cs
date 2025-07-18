@@ -11,6 +11,7 @@ public static class CoreExtension
     {
         services
             .AddSingleton<ICustomerUseCase, CustomerUseCase>()
+            .AddSingleton<IMenuUseCase, MenuUseCase>()
             ;
 
         return services;
@@ -19,7 +20,9 @@ public static class CoreExtension
     public static IServiceCollection AddCoreControllers(this IServiceCollection services)
     {
         services
-            .AddSingleton<ICustomerController, CustomerController>();
+            .AddSingleton<ICustomerController, CustomerController>()
+            .AddSingleton<IMenuController, MenuController>()
+            ;
 
         return services;
     }
