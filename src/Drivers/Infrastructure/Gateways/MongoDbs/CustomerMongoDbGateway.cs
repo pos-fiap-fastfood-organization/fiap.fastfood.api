@@ -1,10 +1,10 @@
 ﻿using Infrastructure.DataAccess.MongoAdapter;
 using Infrastructure.DataAccess.MongoAdapter.Contexts.Interfaces;
-using Infrastructure.Gateways.Entities;
-using Infrastructure.Gateways.Interfaces;
+using Infrastructure.Gateways.MongoDbs.Entities;
+using Infrastructure.Gateways.MongoDbs.Interfaces;
 using MongoDB.Driver;
 
-namespace Infrastructure.Gateways;
+namespace Infrastructure.Gateways.MongoDbs;
 
 public class CustomerMongoDbGateway : MongoGatewayBase<CustomerMongoDb>, ICustomerMongoDbGateway
 {

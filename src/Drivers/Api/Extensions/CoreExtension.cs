@@ -12,6 +12,8 @@ public static class CoreExtension
         services
             .AddSingleton<ICustomerUseCase, CustomerUseCase>()
             .AddSingleton<IMenuUseCase, MenuUseCase>()
+            .AddSingleton<IOrderUseCase, OrderUseCase>()
+            .AddSingleton<IStockUseCase, StockUseCase>()
             ;
 
         return services;
@@ -22,6 +24,7 @@ public static class CoreExtension
         services
             .AddSingleton<ICustomerController, CustomerController>()
             .AddSingleton<IMenuController, MenuController>()
+            .AddSingleton<IOrderController, OrderController>()
             ;
 
         return services;

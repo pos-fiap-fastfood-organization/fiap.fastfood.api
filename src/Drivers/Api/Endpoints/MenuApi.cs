@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Endpoints;
 
 [ApiController]
-[Route("[controller]")]
-public class Menu : ControllerBase
+[Route("menu")]
+public class MenuApi : ControllerBase
 {
     private readonly IMenuController _controller;
 
-    public Menu(IMenuController controller)
+    public MenuApi(IMenuController controller)
     {
         _controller = controller;
     }

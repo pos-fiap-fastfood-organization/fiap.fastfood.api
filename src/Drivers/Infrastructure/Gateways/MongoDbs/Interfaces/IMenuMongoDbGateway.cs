@@ -1,7 +1,7 @@
 ﻿using Core.DTOs.Menus;
-using Infrastructure.Gateways.Entities;
+using Infrastructure.Gateways.MongoDbs.Entities;
 
-namespace Infrastructure.Gateways.Interfaces;
+namespace Infrastructure.Gateways.MongoDbs.Interfaces;
 
 public interface IMenuMongoDbGateway
 {

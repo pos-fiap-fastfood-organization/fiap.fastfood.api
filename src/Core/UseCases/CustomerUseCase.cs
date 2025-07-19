@@ -30,19 +30,14 @@ public class CustomerUseCase : ICustomerUseCase
         return customer;
     }
 
-    public async Task<Customer> GetByIdAsync(string id, CancellationToken cancellationToken)
+    public async Task<Customer?> GetByIdAsync(string? id, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
-            throw new ArgumentNullException(nameof(id));
+            return default;
         }
 
         var customer = await _customerGateway.GetByIdAsync(id, cancellationToken);
-
-        if (customer is null)
-        {
-            throw new ArgumentNullException(nameof(customer));
-        }
 
         return customer;
     }

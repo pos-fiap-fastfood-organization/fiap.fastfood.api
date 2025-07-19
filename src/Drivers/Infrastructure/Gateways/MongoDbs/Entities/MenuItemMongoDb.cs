@@ -4,7 +4,7 @@ using Infrastructure.DataAccess.MongoAdapter.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Infrastructure.Gateways.Entities;
+namespace Infrastructure.Gateways.MongoDbs.Entities;
 
 [BsonIgnoreExtraElements]
 [BsonDiscriminator("menuItem")]
@@ -18,7 +18,6 @@ public class MenuItemMongoDb : MongoEntity
 
     [BsonRepresentation(BsonType.String)]
     public MenuCategory Category { get; set; }
-
 
     public MenuItemMongoDb(MenuItem menuItem)
     {

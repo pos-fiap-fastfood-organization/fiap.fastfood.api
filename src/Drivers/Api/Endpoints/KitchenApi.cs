@@ -3,8 +3,8 @@
 namespace Api.Endpoints;
 
 [ApiController]
-[Route("[controller]")]
-public class Kitchen : ControllerBase
+[Route("kitchen")]
+public class KitchenApi : ControllerBase
 {
     [HttpGet]
     public IActionResult Get()

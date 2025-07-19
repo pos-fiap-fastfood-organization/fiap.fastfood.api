@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Endpoints;
 
 [ApiController]
-[Route("[controller]")]
-public class SelfService : ControllerBase
+[Route("selfservice")]
+public class SelfServiceApi : ControllerBase
 {
     private readonly ICustomerController _customerController;
 
-    public SelfService(ICustomerController customerController)
+    public SelfServiceApi(ICustomerController customerController)
     {
         _customerController = customerController;
     }

@@ -70,7 +70,7 @@ Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete
 
 ---
 
-## 📂 Estrutura de Pastas (Arquitetura Hexagonal)
+## 📂 Estrutura de Pastas (Arquitetura Limpa)
 
 src/  
 ├── Adapters/  
@@ -128,8 +128,9 @@ db/
 | GET    | /Order/[id]                   | Consultar pedido por ID                      |
 | DELETE | /Order/[id]                   | Deletar pedido por ID                        |
 | PATCH  | /Order/[id]                   | Atualizar itens do pedido por ID             |
-| POST   | /Payment/[id]/checkout        | Confirma pedido e obtém dados para pagamento |
-| GET    | /Payment/[id]/confirm-payment | Lista todos os pedidos                       |
+| POST   | /Order/[id]/checkout          | obtém dados para pagamento                   |
+| GET    | /Order/[id]/confirm-payment   | Confirmar Pagamento							|
+
 
 ℹ️ Para mais detalhes, acesse o [Swagger](http://localhost:8080/swagger/index.html).
 

@@ -1,10 +1,10 @@
 ﻿using Core.DTOs.Menus;
 using Core.Entities;
 using Core.Gateways.Interfaces;
-using Infrastructure.Gateways.Entities;
-using Infrastructure.Gateways.Interfaces;
+using Infrastructure.Gateways.MongoDbs.Entities;
+using Infrastructure.Gateways.MongoDbs.Interfaces;
 
-namespace Infrastructure.Gateways.Converters;
+namespace Infrastructure.Gateways.MongoDbs.Converters;
 
 public class MenuGatewayConverter : IMenuGateway
 {

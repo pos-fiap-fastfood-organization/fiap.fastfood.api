@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Infrastructure.DataAccess.MongoAdapter.Entities;
 
-namespace Infrastructure.Gateways.Entities;
+namespace Infrastructure.Gateways.MongoDbs.Entities;
 
 public class CustomerMongoDb : MongoEntity
 {
@@ -23,11 +23,11 @@ public class CustomerMongoDb : MongoEntity
     {
         return new Customer()
         {
-            Id = this.Id,
-            CPF = this.CPF,
-            Name = this.Name,
-            Email = this.Email,
-            Created = this.Created,
+            Id = Id,
+            CPF = CPF,
+            Name = Name,
+            Email = Email,
+            Created = Created,
         };
     }
 }
