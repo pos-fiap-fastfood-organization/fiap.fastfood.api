@@ -17,10 +17,14 @@ public record MercadoPagoPaymentRequest
     [JsonPropertyName("payer")]
     public MercadoPagoPayer? Payer { get; init; }
 
+    [JsonPropertyName("notification_url")]
+    public string NotificationUrl { get; set; }
+
     public MercadoPagoPaymentRequest(Order order, Customer? customer)
     {
         TransactionAmount = order.TotalPrice;
         Payer = new MercadoPagoPayer(customer);
+        NotificationUrl = "https://webhook-test.com/?address=ce597306d08801680062ad913e9d50cb";
         PaymentMethodId = order.PaymentMethod.ToString().ToLower();
 
         Metadata = new MercadoPagoMetadata
