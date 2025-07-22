@@ -34,16 +34,18 @@ public class OrderController : IOrderController
 
     public async Task<GetOrderResponse> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            throw new ArgumentException("Order ID cannot be null or empty.", nameof(id));
-        }
-
-        var order = await _orderUseCase.GetByIdAsync(id, cancellationToken);
-
-        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
+        Order? order = await GetAndValidateAsync(id, cancellationToken);
 
         var response = new GetOrderResponse(order!);
+
+        return response;
+    }
+
+    public async Task<GetOrderPaymentStatusResponse> GetPaymentStatusAsync(string id, CancellationToken cancellationToken)
+    {
+        var order = await GetAndValidateAsync(id, cancellationToken);
+
+        var response = new GetOrderPaymentStatusResponse(order!);
 
         return response;
     }
@@ -100,5 +102,18 @@ public class OrderController : IOrderController
     public Task ConfirmPaymentAsync(string id, CancellationToken cancellationToken)
     {
         return _orderUseCase.UpdateStatusAsync(id, OrderStatus.Received, cancellationToken);
+    }
+
+    private async Task<Order?> GetAndValidateAsync(string id, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            throw new ArgumentException("Order ID cannot be null or empty.", nameof(id));
+        }
+
+        var order = await _orderUseCase.GetByIdAsync(id, cancellationToken);
+
+        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
+        return order;
     }
 }

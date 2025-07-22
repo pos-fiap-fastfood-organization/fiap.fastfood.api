@@ -21,4 +21,5 @@ public interface IOrderController
         string id,
         UpdateStatusOrderRequest updateStatusRequest,
         CancellationToken cancellationToken);
+    Task<GetOrderPaymentStatusResponse> GetPaymentStatusAsync(string id, CancellationToken cancellationToken);
 }
