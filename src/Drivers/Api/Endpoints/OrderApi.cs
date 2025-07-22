@@ -40,6 +40,16 @@ public class OrderApi : ControllerBase
         return Ok(order);
     }
 
+    [HttpGet("{id}/paymentstatus")]
+    public async Task<IActionResult> GetStatusByIdAsync(
+    string id,
+    CancellationToken cancellationToken)
+    {
+        var order = await _orderController.GetPaymentStatusAsync(id, cancellationToken);
+
+        return Ok(order);
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> CreateOrderAsync(
