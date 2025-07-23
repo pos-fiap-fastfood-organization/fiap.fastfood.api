@@ -1,5 +1,4 @@
-﻿using Core.DTOs.Orders;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Entities.Enums;
 
 namespace Core.UseCases.Interfaces;
@@ -12,7 +11,11 @@ public interface IOrderUseCase
 
     Task DeleteAsync(string id, CancellationToken cancellationToken);
 
-    Task<Pagination<Order>> GetAllByFilterAsync(OrderFilter filter, CancellationToken cancellationToken);
+    Task<Pagination<Order>> GetAllByFilterAsync(
+        OrderStatus? status, 
+        int size, 
+        int page, 
+        CancellationToken cancellationToken);
 
     Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken);
 

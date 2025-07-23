@@ -1,7 +1,6 @@
-﻿using Core.Controllers.Exceptions;
-using Core.DTOs.Orders;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Entities.Enums;
+using Core.Exceptions;
 using Core.Gateways.Interfaces;
 using Core.UseCases.Exceptions;
 using Core.UseCases.Interfaces;
@@ -63,12 +62,13 @@ public class OrderUseCase : IOrderUseCase
         return _orderGateway.DeleteAsync(id, cancellationToken);
     }
 
-    public Task<Pagination<Order>> GetAllByFilterAsync(OrderFilter filter, CancellationToken cancellationToken)
+    public Task<Pagination<Order>> GetAllByFilterAsync(OrderStatus? status, int size, int page, CancellationToken cancellationToken)
     {
-        OrderFilterException.ThrowIfInvalidPage(filter.Page);
-        OrderFilterException.ThrowIfInvalidSize(filter.Size);
 
-        return _orderGateway.GetAllByFilterAsync(filter, cancellationToken);
+        OrderFilterException.ThrowIfInvalidPage(page);
+        OrderFilterException.ThrowIfInvalidSize(size);
+
+        return _orderGateway.GetAllByFilterAsync(status, size, page, cancellationToken);
     }
 
     public Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken)

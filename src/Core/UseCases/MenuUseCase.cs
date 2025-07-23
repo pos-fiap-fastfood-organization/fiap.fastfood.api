@@ -1,6 +1,6 @@
-﻿using Core.Controllers.Exceptions;
-using Core.DTOs.Menus;
-using Core.Entities;
+﻿using Core.Entities;
+using Core.Entities.Enums;
+using Core.Exceptions;
 using Core.Gateways.Interfaces;
 using Core.UseCases.Interfaces;
 
@@ -15,9 +15,19 @@ public class MenuUseCase : IMenuUseCase
         _menuGateway = menuGateway;
     }
 
-    public Task<IEnumerable<MenuItem>> GetAllAsync(MenuItemFilter menuItemFilter, CancellationToken cancellationToken)
+    public Task<IEnumerable<MenuItem>> GetAllAsync(
+        string? name,
+        MenuCategory? category,
+        int skip,
+        int limit,
+        CancellationToken cancellationToken)
     {
-        return _menuGateway.GetAllAsync(menuItemFilter, cancellationToken);
+        return _menuGateway.GetAllAsync(
+            name,
+            category,
+            skip,
+            limit,
+            cancellationToken);
     }
 
     public Task<MenuItem?> GetByIdAsync(string id, CancellationToken cancellationToken)

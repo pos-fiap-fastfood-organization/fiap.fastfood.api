@@ -1,5 +1,5 @@
-using Core.Controllers.Interfaces;
-using Core.DTOs.Customers;
+using Adapters.Controllers.Interfaces;
+using Adapters.DTOs.Customers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints;

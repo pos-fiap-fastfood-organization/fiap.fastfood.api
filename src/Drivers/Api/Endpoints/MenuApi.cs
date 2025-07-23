@@ -1,5 +1,5 @@
-﻿using Core.Controllers.Interfaces;
-using Core.DTOs.Menus;
+﻿using Adapters.Controllers.Interfaces;
+using Adapters.DTOs.Menus;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints;
