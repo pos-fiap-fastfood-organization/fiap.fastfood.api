@@ -28,6 +28,7 @@ services:
       - mongo-network
 
   fastfood-api:
+    # image: montenegroforstude/fiap-fastfood-api
     build:
       context: .
       dockerfile: src/Drivers/Api/Dockerfile

@@ -1,5 +1,4 @@
-﻿using Core.Controllers;
-using Core.Controllers.Interfaces;
+﻿using Adapters.Controllers.Interfaces;
 using Core.UseCases;
 using Core.UseCases.Interfaces;
 
@@ -14,17 +13,6 @@ public static class CoreExtension
             .AddSingleton<IMenuUseCase, MenuUseCase>()
             .AddSingleton<IOrderUseCase, OrderUseCase>()
             .AddSingleton<IStockUseCase, StockUseCase>()
-            ;
-
-        return services;
-    }
-
-    public static IServiceCollection AddCoreControllers(this IServiceCollection services)
-    {
-        services
-            .AddSingleton<ICustomerController, CustomerController>()
-            .AddSingleton<IMenuController, MenuController>()
-            .AddSingleton<IOrderController, OrderController>()
             ;
 
         return services;

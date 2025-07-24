@@ -1,5 +1,5 @@
-﻿using Core.Controllers.Interfaces;
-using Core.DTOs.Orders;
+﻿using Adapters.Controllers.Interfaces;
+using Adapters.Presenters.Orders;
 using Core.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 

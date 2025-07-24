@@ -31,20 +31,28 @@ app.Run();
 
 static void ConfigureServices(IServiceCollection services)
 {
-    ConfigureInfrastructure(services);
     ConfigureCore(services);
+    ConfigureAdapter(services);
+    ConfigureInfrastructure(services);
 }
 
 static void ConfigureCore(IServiceCollection services)
 {
     services
-        .AddUserCases()
-        .AddCoreControllers();
+        .AddUserCases();
+}
+
+static void ConfigureAdapter(IServiceCollection services)
+{
+    services
+        .AddGateways()
+        .AddCoreControllers()
+        ;
 }
 
 static void ConfigureInfrastructure(IServiceCollection services)
 {
     services
         .AddDatabases()
-        .AddGateways();
+        ;
 }
