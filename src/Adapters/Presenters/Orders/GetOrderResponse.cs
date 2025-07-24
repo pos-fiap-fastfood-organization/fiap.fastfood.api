@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Core.Entities.Enums;
 
-namespace Adapters.DTOs.Orders;
+namespace Adapters.Presenters.Orders;
 
 public record GetOrderResponse
 (

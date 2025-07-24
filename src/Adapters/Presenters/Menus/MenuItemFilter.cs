@@ -1,6 +1,6 @@
 ﻿using Core.Entities.Enums;
 
-namespace Adapters.DTOs.Menus;
+namespace Adapters.Presenters.Menus;
 
 public record MenuItemFilter(
     string? Name,

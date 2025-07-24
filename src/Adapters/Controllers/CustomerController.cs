@@ -1,5 +1,5 @@
 ﻿using Adapters.Controllers.Interfaces;
-using Adapters.DTOs.Customers;
+using Adapters.Presenters.Customers;
 using Core.Entities;
 using Core.UseCases.Interfaces;
 
