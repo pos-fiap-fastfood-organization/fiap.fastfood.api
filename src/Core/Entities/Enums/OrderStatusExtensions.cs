@@ -7,9 +7,9 @@ public static class OrderStatusExtensions
         return orderStatus switch
         {
             OrderStatus.Pending => PaymentStatus.Pending,
-            OrderStatus.Received => PaymentStatus.Completed,
-            OrderStatus.Canceled => PaymentStatus.Cancelled,
-            OrderStatus.InProgress or OrderStatus.Done or OrderStatus.Finished => PaymentStatus.Completed,
+            OrderStatus.Received => PaymentStatus.Approved,
+            OrderStatus.Canceled => PaymentStatus.Refused,
+            OrderStatus.InProgress or OrderStatus.Done or OrderStatus.Finished => PaymentStatus.Approved,
             _ => PaymentStatus.None
         };
     }

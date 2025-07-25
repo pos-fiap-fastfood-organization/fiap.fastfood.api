@@ -63,6 +63,7 @@ public class Order
         get => _totalPrice;
         set => _totalPrice = OrderPropertyException.ThrowIfZeroOrNegative(value, nameof(TotalPrice));
     }
+    public string? Notes { get => _id; set => _id = value; }
 
     private static OrderStatus ValidateCategory(OrderStatus value)
     {
@@ -96,5 +97,16 @@ public class Order
         }
 
         Payment = orderPayment;
+    }
+
+    internal void ConfirmPayment()
+    {
+        Status = OrderStatus.Received;
+    }
+
+    internal void Cancel(string reason)
+    {
+        Status = OrderStatus.Canceled;
+        Notes = reason;
     }
 }

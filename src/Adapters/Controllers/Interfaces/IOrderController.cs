@@ -22,4 +22,5 @@ public interface IOrderController
         UpdateStatusOrderRequest updateStatusRequest,
         CancellationToken cancellationToken);
     Task<GetOrderPaymentStatusResponse> GetPaymentStatusAsync(string id, CancellationToken cancellationToken);
+    Task ProcessPaymentWebhookAsync(OrderPaymentWebhookRequest paymentWebhookRequest, CancellationToken cancellationToken);
 }

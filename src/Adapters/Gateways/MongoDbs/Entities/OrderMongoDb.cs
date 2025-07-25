@@ -21,6 +21,7 @@ public class OrderMongoDb : MongoEntity
     public string? CustomerName { get; set; }
     public OrderPaymentMongoDb? Payment { get; set; }
     public IEnumerable<OrderItemMongoDb> Items { get; set; } = [];
+    public string Notes { get; set; }
 
     public OrderMongoDb()
     {

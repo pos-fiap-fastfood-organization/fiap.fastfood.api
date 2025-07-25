@@ -26,4 +26,5 @@ public interface IOrderGateway
         int size,
         int page,
         CancellationToken cancellationToken);
+    Task<Order> UpdateStatusAsync(string id, OrderStatus status, string? notes, CancellationToken cancellationToken);
 }

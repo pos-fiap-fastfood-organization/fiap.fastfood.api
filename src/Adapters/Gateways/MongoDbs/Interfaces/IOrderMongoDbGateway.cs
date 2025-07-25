@@ -20,6 +20,7 @@ public interface IOrderMongoDbGateway
     Task<OrderMongoDb> UpdateStatusAsync(
         string id,
         OrderStatus status,
+        string? notes,
         CancellationToken cancellationToken);
 
     Task<PagedResult<OrderMongoDb>> GetAllByFilterAsync(

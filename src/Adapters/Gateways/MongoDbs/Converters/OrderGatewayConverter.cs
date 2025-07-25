@@ -54,7 +54,14 @@ public class OrderGatewayConverter : IOrderGateway
 
     public async Task<Order> UpdateStatusAsync(string id, OrderStatus status, CancellationToken cancellationToken)
     {
-        var orderMongoDb = await _orderMongoDbGateway.UpdateStatusAsync(id, status, cancellationToken);
+        var orderMongoDb = await _orderMongoDbGateway.UpdateStatusAsync(id, status, null, cancellationToken);
+
+        return orderMongoDb.ToCore();
+    }
+
+    public async Task<Order> UpdateStatusAsync(string id, OrderStatus status, string? notes, CancellationToken cancellationToken)
+    {
+        var orderMongoDb = await _orderMongoDbGateway.UpdateStatusAsync(id, status, notes, cancellationToken);
 
         return orderMongoDb.ToCore();
     }

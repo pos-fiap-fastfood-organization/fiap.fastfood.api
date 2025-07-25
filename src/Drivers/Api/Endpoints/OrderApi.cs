@@ -105,4 +105,13 @@ public class OrderApi : ControllerBase
         await _orderController.ConfirmPaymentAsync(id, cancellationToken);
         return NoContent();
     }
+
+    [HttpPost("payment-webhook")]
+    public async Task<IActionResult> PaymentWebhookAsync(
+        [FromBody] OrderPaymentWebhookRequest paymentWebhookRequest,
+        CancellationToken cancellationToken)
+    {
+        await _orderController.ProcessPaymentWebhookAsync(paymentWebhookRequest, cancellationToken);
+        return NoContent();
+    }
 }
