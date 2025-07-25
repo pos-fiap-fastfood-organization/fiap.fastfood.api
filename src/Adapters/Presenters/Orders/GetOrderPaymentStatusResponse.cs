@@ -6,7 +6,7 @@ namespace Adapters.Presenters.Orders;
 public record GetOrderPaymentStatusResponse
 (
     string Id,
-    OrderStatus Status,
+    PaymentStatus Status,
     PaymentMethod PaymentMethod,
     decimal TotalPrice
 )
@@ -14,7 +14,7 @@ public record GetOrderPaymentStatusResponse
     public GetOrderPaymentStatusResponse(Order order)
         : this(
             order.Id!,
-            order.Status,
+            order.Status.ToPaymentStatus(),
             order.PaymentMethod,
             order.TotalPrice)
     {
