@@ -7,6 +7,8 @@ public interface IOrderController
 {
     Task<Pagination<GetOrderResponse>> GetAllByFilterAsync(OrderFilter filter, CancellationToken cancellationToken);
 
+    Task<IEnumerable<GetOrderResponse>> GetAllPendingAsync(CancellationToken cancellationToken);
+
     Task<GetOrderResponse> GetByIdAsync(string id, CancellationToken cancellationToken);
 
     Task<Order> CreateOrderAsync(CreateOrderRequest request, CancellationToken cancellationToken);
@@ -21,6 +23,8 @@ public interface IOrderController
         string id,
         UpdateStatusOrderRequest updateStatusRequest,
         CancellationToken cancellationToken);
+
     Task<GetOrderPaymentStatusResponse> GetPaymentStatusAsync(string id, CancellationToken cancellationToken);
+
     Task ProcessPaymentWebhookAsync(OrderPaymentWebhookRequest paymentWebhookRequest, CancellationToken cancellationToken);
 }

@@ -80,4 +80,9 @@ public class OrderMongoDb : MongoEntity
             Items = orderList.Items.Select(ToCore)
         };
     }
+
+    internal static IEnumerable<Order> ToCore(IEnumerable<OrderMongoDb> orders)
+    {
+        return orders.Select(ToCore);
+    }
 }

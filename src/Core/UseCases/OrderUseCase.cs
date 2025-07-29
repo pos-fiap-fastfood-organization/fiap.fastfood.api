@@ -72,6 +72,11 @@ public class OrderUseCase : IOrderUseCase
         return _orderGateway.GetAllByFilterAsync(status, size, page, cancellationToken);
     }
 
+    public async Task<IEnumerable<Order>> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        return await _orderGateway.GetAllPendingAsync(cancellationToken);
+    }
+
     public Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         return _orderGateway.GetByIdAsync(id, cancellationToken);

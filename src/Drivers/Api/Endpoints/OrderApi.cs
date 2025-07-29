@@ -30,6 +30,14 @@ public class OrderApi : ControllerBase
         return Ok(orders);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var orders = await _orderController.GetAllPendingAsync(cancellationToken);
+
+        return Ok(orders);
+    }
+
     [HttpGet("{id}", Name = "GetOrderById")]
     public async Task<IActionResult> GetByIdAsync(
         string id,

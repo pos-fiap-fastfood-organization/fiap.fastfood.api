@@ -40,6 +40,11 @@ public record GetOrderResponse
             order.TotalPrice);
     }
 
+    public static IEnumerable<GetOrderResponse> Parse(IEnumerable<Order> orders)
+    {
+        return orders.Select(Parse);
+    }
+
     public static Pagination<GetOrderResponse> Parse(Pagination<Order> orderList)
     {
         return new Pagination<GetOrderResponse>()

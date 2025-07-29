@@ -135,4 +135,13 @@ public class OrderController : IOrderController
         OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
         return order;
     }
+
+    public async Task<IEnumerable<GetOrderResponse>> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var orderList = await _orderUseCase.GetAllPendingAsync(cancellationToken);
+
+        var response = GetOrderResponse.Parse(orderList);
+
+        return response!;
+    }
 }

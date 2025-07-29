@@ -26,6 +26,13 @@ public class OrderGatewayConverter : IOrderGateway
         return OrderMongoDb.ToCore(orderList);
     }
 
+    public async Task<IEnumerable<Order>> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var orders = await _orderMongoDbGateway.GetAllPendingAsync(cancellationToken);
+
+        return OrderMongoDb.ToCore(orders);
+    }
+
     public async Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var orderMongoDb = await _orderMongoDbGateway.GetByIdAsync(id, cancellationToken);

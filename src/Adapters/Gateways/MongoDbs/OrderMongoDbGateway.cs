@@ -33,6 +33,34 @@ public class OrderMongoDbGateway : MongoGatewayBase<OrderMongoDb>, IOrderMongoDb
         return pagedResult;
     }
 
+    public async Task<IEnumerable<OrderMongoDb>> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var builder = Builders<OrderMongoDb>.Filter;
+        var pendingStatusFilter = builder.Ne(order => order.Status, OrderStatus.Finished);
+
+        var options = new FindOptions<OrderMongoDb>
+        {
+            Sort = Builders<OrderMongoDb>.Sort.Descending(order => order.Created),
+        };
+
+        var cursor = await _collection.FindAsync(pendingStatusFilter, options, cancellationToken);
+        var orders = cursor.ToEnumerable(cancellationToken: cancellationToken);
+
+        var statusOrder = new[]
+        {
+            OrderStatus.Done,
+            OrderStatus.InProgress,
+            OrderStatus.Received
+        };
+
+        var ordered = orders
+            .OrderBy(order => Array.IndexOf(statusOrder, order.Status))
+            .ThenByDescending(order => order.Created)
+            .AsEnumerable();
+
+        return ordered;
+    }
+
     public async Task<OrderMongoDb> InsertOneAsync(OrderMongoDb order, CancellationToken cancellationToken)
     {
         await _collection.InsertOneAsync(order, null, cancellationToken);
@@ -76,7 +104,7 @@ public class OrderMongoDbGateway : MongoGatewayBase<OrderMongoDb>, IOrderMongoDb
         var filter = Builders<OrderMongoDb>.Filter.Eq(entity => entity.Id, id);
         var update = Builders<OrderMongoDb>.Update.Set(entity => entity.Status, status);
 
-        if(string.IsNullOrEmpty(notes) is false)
+        if (string.IsNullOrEmpty(notes) is false)
         {
             update = update.Set(entity => entity.Notes, notes);
         }
@@ -90,5 +118,4 @@ public class OrderMongoDbGateway : MongoGatewayBase<OrderMongoDb>, IOrderMongoDb
 
         return order;
     }
-
 }

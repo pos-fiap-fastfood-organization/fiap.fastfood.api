@@ -12,10 +12,12 @@ public interface IOrderUseCase
     Task DeleteAsync(string id, CancellationToken cancellationToken);
 
     Task<Pagination<Order>> GetAllByFilterAsync(
-        OrderStatus? status, 
-        int size, 
-        int page, 
+        OrderStatus? status,
+        int size,
+        int page,
         CancellationToken cancellationToken);
+
+    Task<IEnumerable<Order>> GetAllPendingAsync(CancellationToken cancellationToken);
 
     Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken);
 

@@ -28,4 +28,6 @@ public interface IOrderMongoDbGateway
         int size,
         int page,
         CancellationToken cancellationToken);
+
+    Task<IEnumerable<OrderMongoDb>> GetAllPendingAsync(CancellationToken cancellationToken);
 }
