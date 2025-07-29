@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-fastfood-mongo
+  labels:
+    app: fiap-fastfood-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-fastfood-mongo
+  template:
+    metadata:
+      labels:
+        app: fiap-fastfood-mongo
+    spec:
+      containers:
+      - name: fiap-fastfood-mongo
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        env:
+         - name: MONGO_INITDB_ROOT_USERNAME
+           valueFrom:
+             secretKeyRef:
+               name: fiap-fastfood-mongo-secret
+               key: MONGO_INITDB_ROOT_USERNAME
+         - name: MONGO_INITDB_ROOT_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: fiap-fastfood-mongo-secret
+               key: MONGO_INITDB_ROOT_PASSWORD
+        volumeMounts:
+          - name: mongo-storage
+            mountPath: /data/db
+          - name: mongo-db-init
+            mountPath: /docker-entrypoint-initdb.d
+        resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: fiap-fastfood-mongo-pvc
+        - name: mongo-db-init
+          configMap:
+            name: fiap-fastfood-mongo-config
