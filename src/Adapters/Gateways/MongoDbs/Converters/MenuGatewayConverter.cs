@@ -1,5 +1,4 @@
-﻿using Adapters.DTOs.Menus;
-using Adapters.Gateways.MongoDbs.Entities;
+﻿using Adapters.Gateways.MongoDbs.Entities;
 using Adapters.Gateways.MongoDbs.Interfaces;
 using Core.Entities;
 using Core.Entities.Enums;

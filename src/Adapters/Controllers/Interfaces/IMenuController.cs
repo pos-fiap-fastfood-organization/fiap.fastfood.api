@@ -1,4 +1,4 @@
-﻿using Adapters.DTOs.Menus;
+﻿using Adapters.Presenters.Menus;
 
 namespace Adapters.Controllers.Interfaces;
 

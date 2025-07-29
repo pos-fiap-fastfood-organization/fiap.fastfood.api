@@ -1,12 +1,14 @@
 ﻿using Core.Entities.Enums;
 using System.Text.Json.Serialization;
 
-namespace Adapters.DTOs.Menus;
-public record RegisterMenuItemRequest(
+namespace Adapters.Presenters.Menus;
+
+public record UpdateMenuItemRequest(
     string? Name,
     decimal Price,
     MenuCategory Category,
-    string? Description)
+    string? Description,
+    bool IsActive)
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public MenuCategory Category { get; init; } = Category;

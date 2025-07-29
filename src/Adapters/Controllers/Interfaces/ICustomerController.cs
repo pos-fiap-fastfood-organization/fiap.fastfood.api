@@ -1,4 +1,4 @@
-﻿using Adapters.DTOs.Customers;
+﻿using Adapters.Presenters.Customers;
 
 namespace Adapters.Controllers.Interfaces;
 

@@ -1,5 +1,5 @@
 ﻿using Adapters.Controllers.Interfaces;
-using Adapters.DTOs.Menus;
+using Adapters.Presenters.Menus;
 using Core.Entities;
 using Core.UseCases.Interfaces;
 

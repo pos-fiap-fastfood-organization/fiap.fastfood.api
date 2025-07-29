@@ -1,4 +1,4 @@
-﻿using Adapters.DTOs.Orders;
+﻿using Adapters.Presenters.Orders;
 using Core.Entities;
 
 namespace Adapters.Controllers.Interfaces;

@@ -1,6 +1,6 @@
 ﻿using Core.Entities;
 
-namespace Adapters.DTOs.Orders;
+namespace Adapters.Presenters.Orders;
 
 public record CreateOrderRequest
 (

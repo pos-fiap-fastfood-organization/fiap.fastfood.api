@@ -1,7 +1,7 @@
 ﻿using Core.Entities.Enums;
 using System.Text.Json.Serialization;
 
-namespace Adapters.DTOs.Menus;
+namespace Adapters.Presenters.Menus;
 
 public record MenuItemResponse(
     string Id,

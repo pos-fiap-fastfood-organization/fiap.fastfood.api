@@ -1,5 +1,5 @@
 using Adapters.Controllers.Interfaces;
-using Adapters.DTOs.Customers;
+using Adapters.Presenters.Customers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints;
