@@ -98,7 +98,7 @@ public class OrderMongoDbGateway : MongoGatewayBase<OrderMongoDb>, IOrderMongoDb
         return _collection.FindOneAndUpdateAsync(filter, update, options, cancellationToken);
     }
 
-    public async Task<OrderMongoDb> UpdateStatusAsync(string id, OrderStatus status, string notes, CancellationToken cancellationToken)
+    public async Task<OrderMongoDb> UpdateStatusAsync(string id, OrderStatus status, string? notes, CancellationToken cancellationToken)
     {
         var filter = Builders<OrderMongoDb>.Filter.Eq(entity => entity.Id, id);
         var update = Builders<OrderMongoDb>.Update.Set(entity => entity.Status, status);

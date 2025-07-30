@@ -21,7 +21,7 @@ public class OrderMongoDb : MongoEntity
     public string? CustomerName { get; set; }
     public OrderPaymentMongoDb? Payment { get; set; }
     public IEnumerable<OrderItemMongoDb> Items { get; set; } = [];
-    public string Notes { get; set; }
+    public string? Notes { get; set; }
 
     public OrderMongoDb()
     {
@@ -50,6 +50,7 @@ public class OrderMongoDb : MongoEntity
             CustomerName = orderList.CustomerName,
             Payment = orderList.Payment?.ToCore(),
             PaymentMethod = orderList.PaymentMethod,
+            Notes = orderList.Notes,
             Items = OrderItemMongoDb.ToCore(orderList.Items),
         };
     }
@@ -65,6 +66,7 @@ public class OrderMongoDb : MongoEntity
             CustomerName = CustomerName,
             Payment = Payment?.ToCore(),
             PaymentMethod = PaymentMethod,
+            Notes = Notes,
             Items = OrderItemMongoDb.ToCore(Items),
         };
     }

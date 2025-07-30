@@ -120,14 +120,14 @@ public class OrderUseCase : IOrderUseCase
     }
 
 
-    private async Task<Order> SetPaymentRefusalAsync(string id, CancellationToken cancellationToken)
+    private async Task SetPaymentRefusalAsync(string id, CancellationToken cancellationToken)
     {
         var order = await GetByIdAsync(id, cancellationToken);
         OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
 
         order!.Cancel(PAYMENT_REFUSED_REASON);
 
-        return await _orderGateway.UpdateStatusAsync(id, order.Status, order.Notes, cancellationToken);
+        await _orderGateway.UpdateStatusAsync(id, order.Status, order.Notes, cancellationToken);
     }
 
     private static void ValidateOrderForCheckout(string id, PaymentMethod paymentType, Order? order)
