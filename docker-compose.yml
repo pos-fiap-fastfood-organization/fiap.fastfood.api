@@ -28,10 +28,10 @@ services:
       - mongo-network
 
   fastfood-api:
-    # image: montenegroforstude/fiap-fastfood-api
-    build:
-      context: .
-      dockerfile: src/Drivers/Api/Dockerfile
+    image: montenegroforstude/fiap-fastfood-api:latest
+    # build:
+    #   context: .
+    #   dockerfile: src/Drivers/Api/Dockerfile
     env_file:
       .env
     restart: always

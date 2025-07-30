@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-fastfood-api
+  labels:
+    app: fiap-fastfood-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-fastfood-api
+  template:
+    metadata:
+      labels:
+        app: fiap-fastfood-api
+    spec:
+      containers:
+      - name: fiap-fastfood-api
+        image:  montenegroforstude/fiap-fastfood-api:latest
+        env:
+         - name: MERCADOPAGO_API_TOKEN
+           valueFrom:
+             secretKeyRef:
+               name: fiap-fastfood-api-secret
+               key: MERCADOPAGO_API_TOKEN
+         - name: StringConnectionMongo
+           valueFrom:
+             secretKeyRef:
+               name: fiap-fastfood-api-secret
+               key: StringConnectionMongo
+        envFrom:
+        - configMapRef:
+            name: fiap-fastfood-api-config
+        resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m" 
+        ports:
+        - containerPort: 8080
