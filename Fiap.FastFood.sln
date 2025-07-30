@@ -15,12 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Drive
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adapters", "src\Adapters\Adapters.csproj", "{0300A471-D4FB-47F2-8E0C-982460EC7373}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionsItems", "SolutionsItems", "{5DE2C3AD-B9B5-4DFB-A0C3-3F0FEFABCBB0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7B55090F-51D1-46BB-89DC-17D6785497A3}"
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
 		docker-compose.yml = docker-compose.yml
 		k8s\fiap-fastfood-api-config.yaml = k8s\fiap-fastfood-api-config.yaml
 		k8s\fiap-fastfood-api-deployment.yaml = k8s\fiap-fastfood-api-deployment.yaml
+		k8s\fiap-fastfood-api-hpa.yaml = k8s\fiap-fastfood-api-hpa.yaml
 		k8s\fiap-fastfood-api-secret.yaml = k8s\fiap-fastfood-api-secret.yaml
 		k8s\fiap-fastfood-api-service.yaml = k8s\fiap-fastfood-api-service.yaml
 		k8s\fiap-fastfood-mongo-config.yaml = k8s\fiap-fastfood-mongo-config.yaml
