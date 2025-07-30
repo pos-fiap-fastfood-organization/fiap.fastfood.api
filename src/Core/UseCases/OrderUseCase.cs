@@ -89,16 +89,6 @@ public class OrderUseCase : IOrderUseCase
         return await _orderGateway.UpdateStatusAsync(id, status, cancellationToken);
     }
 
-    public async Task<Order> ConfirmPaymentAsync(string id, CancellationToken cancellationToken)
-    {
-        var order = await GetByIdAsync(id, cancellationToken);
-        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
-
-        order!.ConfirmPayment();
-
-        return await _orderGateway.UpdateStatusAsync(id, order.Status, cancellationToken);
-    }
-
     public async Task ProcessPaymentAsync(string id, PaymentStatus paymentStatus, CancellationToken cancellationToken)
     {
         InvalidPaymentStatusException.ThrowIfInvalidStatus(paymentStatus);
@@ -118,6 +108,17 @@ public class OrderUseCase : IOrderUseCase
                 throw new InvalidPaymentProcessingException();
         }
     }
+
+    private async Task<Order> ConfirmPaymentAsync(string id, CancellationToken cancellationToken)
+    {
+        var order = await GetByIdAsync(id, cancellationToken);
+        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
+
+        order!.ConfirmPayment();
+
+        return await _orderGateway.UpdateStatusAsync(id, order.Status, cancellationToken);
+    }
+
 
     private async Task<Order> SetPaymentRefusalAsync(string id, CancellationToken cancellationToken)
     {

@@ -103,11 +103,6 @@ public class OrderController : IOrderController
         return response;
     }
 
-    public async Task ConfirmPaymentAsync(string id, CancellationToken cancellationToken)
-    {
-        _ = await _orderUseCase.ConfirmPaymentAsync(id, cancellationToken);
-    }
-
     public async Task ProcessPaymentWebhookAsync(OrderPaymentWebhookRequest paymentWebhookRequest, CancellationToken cancellationToken)
     {
         if (paymentWebhookRequest == null)

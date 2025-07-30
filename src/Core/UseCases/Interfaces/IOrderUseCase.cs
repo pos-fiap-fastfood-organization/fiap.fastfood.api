@@ -23,6 +23,5 @@ public interface IOrderUseCase
 
     Task<Order> GetValidatedOrderForCheckoutAsync(string id, PaymentMethod paymentMethod, CancellationToken cancellationToken);
     Task ProcessPaymentAsync(string orderId, PaymentStatus paymentStatus, CancellationToken cancellationToken);
-    Task<Order> ConfirmPaymentAsync(string id, CancellationToken cancellationToken);
     Task<Order> UpdateStatusAsync(string id, OrderStatus status, CancellationToken cancellationToken);
 }

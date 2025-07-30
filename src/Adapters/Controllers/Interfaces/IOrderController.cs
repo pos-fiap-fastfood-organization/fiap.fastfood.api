@@ -15,8 +15,6 @@ public interface IOrderController
 
     Task<OrderCheckoutResponse> CheckoutAsync(string id, OrderCheckoutRequest request, CancellationToken cancellationToken);
 
-    Task ConfirmPaymentAsync(string id, CancellationToken cancellationToken);
-
     Task DeleteAsync(string id, CancellationToken cancellationToken);
 
     Task<GetOrderResponse> UpdateStatusAsync(
