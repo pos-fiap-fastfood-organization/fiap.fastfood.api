@@ -19,10 +19,10 @@ public class OrderApi : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAllByFilterAsync(
-        [FromQuery] int page,
-        [FromQuery] int size,
         [FromQuery] OrderStatus? status,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 10)
     {
         var orderFilter = new OrderFilter(status, page, size);
         var orders = await _orderController.GetAllByFilterAsync(orderFilter, cancellationToken);
@@ -30,7 +30,7 @@ public class OrderApi : ControllerBase
         return Ok(orders);
     }
 
-    [HttpGet]
+    [HttpGet("pending")]
     public async Task<IActionResult> GetAllPendingAsync(CancellationToken cancellationToken)
     {
         var orders = await _orderController.GetAllPendingAsync(cancellationToken);
