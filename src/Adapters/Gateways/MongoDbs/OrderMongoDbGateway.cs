@@ -36,14 +36,13 @@ public class OrderMongoDbGateway : MongoGatewayBase<OrderMongoDb>, IOrderMongoDb
     public async Task<IEnumerable<OrderMongoDb>> GetAllPendingAsync(CancellationToken cancellationToken)
     {
         var builder = Builders<OrderMongoDb>.Filter;
-        var pendingStatusFilter = builder.Ne(order => order.Status, OrderStatus.Finished);
+        var pendingStatusFilter = builder.And(
+            builder.Ne(order => order.Status, OrderStatus.Pending),
+            builder.Ne(order => order.Status, OrderStatus.Finished),
+            builder.Ne(order => order.Status, OrderStatus.Canceled)
+        );        
 
-        var options = new FindOptions<OrderMongoDb>
-        {
-            Sort = Builders<OrderMongoDb>.Sort.Descending(order => order.Created),
-        };
-
-        var cursor = await _collection.FindAsync(pendingStatusFilter, options, cancellationToken);
+        var cursor = await _collection.FindAsync(pendingStatusFilter, default, cancellationToken);
         var orders = cursor.ToEnumerable(cancellationToken: cancellationToken);
 
         var statusOrder = new[]
@@ -55,7 +54,7 @@ public class OrderMongoDbGateway : MongoGatewayBase<OrderMongoDb>, IOrderMongoDb
 
         var ordered = orders
             .OrderBy(order => Array.IndexOf(statusOrder, order.Status))
-            .ThenByDescending(order => order.Created)
+            .ThenBy(order => order.Created)
             .AsEnumerable();
 
         return ordered;
