@@ -26,6 +26,13 @@ public class OrderGatewayConverter : IOrderGateway
         return OrderMongoDb.ToCore(orderList);
     }
 
+    public async Task<IEnumerable<Order>> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var orders = await _orderMongoDbGateway.GetAllPendingAsync(cancellationToken);
+
+        return OrderMongoDb.ToCore(orders);
+    }
+
     public async Task<Order?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var orderMongoDb = await _orderMongoDbGateway.GetByIdAsync(id, cancellationToken);
@@ -54,7 +61,14 @@ public class OrderGatewayConverter : IOrderGateway
 
     public async Task<Order> UpdateStatusAsync(string id, OrderStatus status, CancellationToken cancellationToken)
     {
-        var orderMongoDb = await _orderMongoDbGateway.UpdateStatusAsync(id, status, cancellationToken);
+        var orderMongoDb = await _orderMongoDbGateway.UpdateStatusAsync(id, status, null, cancellationToken);
+
+        return orderMongoDb.ToCore();
+    }
+
+    public async Task<Order> UpdateStatusAsync(string id, OrderStatus status, string? notes, CancellationToken cancellationToken)
+    {
+        var orderMongoDb = await _orderMongoDbGateway.UpdateStatusAsync(id, status, notes, cancellationToken);
 
         return orderMongoDb.ToCore();
     }

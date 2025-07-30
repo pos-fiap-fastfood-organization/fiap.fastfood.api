@@ -11,6 +11,7 @@ public record GetOrderResponse
     IEnumerable<OrderItemResponse> Items,
     OrderStatus Status,
     PaymentMethod PaymentMethod,
+    string? Notes,
     decimal TotalPrice
 )
 {
@@ -22,6 +23,7 @@ public record GetOrderResponse
             OrderItemResponse.Parse(order.Items),
             order.Status,
             order.PaymentMethod,
+            order.Notes,
             order.TotalPrice)
     {
     }
@@ -37,7 +39,13 @@ public record GetOrderResponse
             orderItemResponse,
             order.Status,
             order.PaymentMethod,
+            order.Notes,
             order.TotalPrice);
+    }
+
+    public static IEnumerable<GetOrderResponse> Parse(IEnumerable<Order> orders)
+    {
+        return orders.Select(Parse);
     }
 
     public static Pagination<GetOrderResponse> Parse(Pagination<Order> orderList)

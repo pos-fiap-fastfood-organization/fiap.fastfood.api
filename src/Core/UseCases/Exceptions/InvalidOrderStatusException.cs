@@ -10,7 +10,7 @@ internal class InvalidOrderStatusException : Exception
     {
     }
 
-    internal static void ThrowIfIncorretStatus(OrderStatus value)
+    internal static void ThrowIfInvalidStatus(OrderStatus value)
     {
         if (value is OrderStatus.None)
         {

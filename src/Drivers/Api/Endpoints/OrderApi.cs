@@ -19,13 +19,21 @@ public class OrderApi : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAllByFilterAsync(
-        [FromQuery] int page,
-        [FromQuery] int size,
         [FromQuery] OrderStatus? status,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 10)
     {
         var orderFilter = new OrderFilter(status, page, size);
         var orders = await _orderController.GetAllByFilterAsync(orderFilter, cancellationToken);
+
+        return Ok(orders);
+    }
+
+    [HttpGet("pending")]
+    public async Task<IActionResult> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var orders = await _orderController.GetAllPendingAsync(cancellationToken);
 
         return Ok(orders);
     }
@@ -97,12 +105,12 @@ public class OrderApi : ControllerBase
         return Ok(checkoutResponse);
     }
 
-    [HttpPost("{id}/confirm-payment")]
-    public async Task<IActionResult> ConfirmPaymentAsync(
-        string id,
+    [HttpPost("payment-webhook")]
+    public async Task<IActionResult> PaymentWebhookAsync(
+        [FromBody] OrderPaymentWebhookRequest paymentWebhookRequest,
         CancellationToken cancellationToken)
     {
-        await _orderController.ConfirmPaymentAsync(id, cancellationToken);
+        await _orderController.ProcessPaymentWebhookAsync(paymentWebhookRequest, cancellationToken);
         return NoContent();
     }
 }

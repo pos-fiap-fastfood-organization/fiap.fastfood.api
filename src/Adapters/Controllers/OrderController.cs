@@ -103,9 +103,19 @@ public class OrderController : IOrderController
         return response;
     }
 
-    public Task ConfirmPaymentAsync(string id, CancellationToken cancellationToken)
+    public async Task ProcessPaymentWebhookAsync(OrderPaymentWebhookRequest paymentWebhookRequest, CancellationToken cancellationToken)
     {
-        return _orderUseCase.UpdateStatusAsync(id, OrderStatus.Received, cancellationToken);
+        if (paymentWebhookRequest == null)
+        {
+            throw new ArgumentException("Payment webhook cannot be null.", nameof(paymentWebhookRequest));
+        }
+
+        if (string.IsNullOrWhiteSpace(paymentWebhookRequest.OrderId))
+        {
+            throw new ArgumentException("Order ID cannot be null or empty.", nameof(paymentWebhookRequest.OrderId));
+        }
+
+        await _orderUseCase.ProcessPaymentAsync(paymentWebhookRequest.OrderId, paymentWebhookRequest.PaymentStatus, cancellationToken);
     }
 
     private async Task<Order?> GetAndValidateAsync(string id, CancellationToken cancellationToken)
@@ -119,5 +129,14 @@ public class OrderController : IOrderController
 
         OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
         return order;
+    }
+
+    public async Task<IEnumerable<GetOrderResponse>> GetAllPendingAsync(CancellationToken cancellationToken)
+    {
+        var orderList = await _orderUseCase.GetAllPendingAsync(cancellationToken);
+
+        var response = GetOrderResponse.Parse(orderList);
+
+        return response!;
     }
 }

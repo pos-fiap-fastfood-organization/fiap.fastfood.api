@@ -10,6 +10,7 @@ public class Order
     private OrderStatus _status;
     private decimal _totalPrice;
     private string? _customerName;
+    private string? _notes;
     private OrderPayment? _payment;
     private PaymentMethod _paymentMethod;
     private IEnumerable<OrderItem> _items = Enumerable.Empty<OrderItem>();
@@ -63,6 +64,7 @@ public class Order
         get => _totalPrice;
         set => _totalPrice = OrderPropertyException.ThrowIfZeroOrNegative(value, nameof(TotalPrice));
     }
+    public string? Notes { get => _notes; set => _notes = value; }
 
     private static OrderStatus ValidateCategory(OrderStatus value)
     {
@@ -96,5 +98,16 @@ public class Order
         }
 
         Payment = orderPayment;
+    }
+
+    internal void ConfirmPayment()
+    {
+        Status = OrderStatus.Received;
+    }
+
+    internal void Cancel(string reason)
+    {
+        Status = OrderStatus.Canceled;
+        Notes = reason;
     }
 }

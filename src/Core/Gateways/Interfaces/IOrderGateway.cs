@@ -21,9 +21,14 @@ public interface IOrderGateway
         string id,
         OrderStatus status,
         CancellationToken cancellationToken);
+
     Task<Pagination<Order>> GetAllByFilterAsync(
         OrderStatus? status,
         int size,
         int page,
         CancellationToken cancellationToken);
+
+    Task<Order> UpdateStatusAsync(string id, OrderStatus status, string? notes, CancellationToken cancellationToken);
+
+    Task<IEnumerable<Order>> GetAllPendingAsync(CancellationToken cancellationToken);
 }
