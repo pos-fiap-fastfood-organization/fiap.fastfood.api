@@ -104,13 +104,4 @@ public class OrderApi : ControllerBase
         var checkoutResponse = await _orderController.CheckoutAsync(id, checkoutRequest, cancellationToken);
         return Ok(checkoutResponse);
     }
-
-    [HttpPost("payment-webhook")]
-    public async Task<IActionResult> PaymentWebhookAsync(
-        [FromBody] OrderPaymentWebhookRequest paymentWebhookRequest,
-        CancellationToken cancellationToken)
-    {
-        await _orderController.ProcessPaymentWebhookAsync(paymentWebhookRequest, cancellationToken);
-        return NoContent();
-    }
 }

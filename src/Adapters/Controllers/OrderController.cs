@@ -1,7 +1,6 @@
 ﻿using Adapters.Controllers.Interfaces;
 using Adapters.Presenters.Orders;
 using Core.Entities;
-using Core.Entities.Enums;
 using Core.Exceptions;
 using Core.UseCases.Interfaces;
 
@@ -26,9 +25,9 @@ public class OrderController : IOrderController
     public async Task<Pagination<GetOrderResponse>> GetAllByFilterAsync(OrderFilter filter, CancellationToken cancellationToken)
     {
         var orderList = await _orderUseCase.GetAllByFilterAsync(
-            filter.Status, 
-            filter.Size, 
-            filter.Page, 
+            filter.Status,
+            filter.Size,
+            filter.Page,
             cancellationToken);
 
         var response = GetOrderResponse.Parse(orderList);
@@ -101,21 +100,6 @@ public class OrderController : IOrderController
         var response = new OrderCheckoutResponse(checkoutOrder.Payment!);
 
         return response;
-    }
-
-    public async Task ProcessPaymentWebhookAsync(OrderPaymentWebhookRequest paymentWebhookRequest, CancellationToken cancellationToken)
-    {
-        if (paymentWebhookRequest == null)
-        {
-            throw new ArgumentException("Payment webhook cannot be null.", nameof(paymentWebhookRequest));
-        }
-
-        if (string.IsNullOrWhiteSpace(paymentWebhookRequest.OrderId))
-        {
-            throw new ArgumentException("Order ID cannot be null or empty.", nameof(paymentWebhookRequest.OrderId));
-        }
-
-        await _orderUseCase.ProcessPaymentAsync(paymentWebhookRequest.OrderId, paymentWebhookRequest.PaymentStatus, cancellationToken);
     }
 
     private async Task<Order?> GetAndValidateAsync(string id, CancellationToken cancellationToken)

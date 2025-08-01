@@ -12,6 +12,7 @@ public static class CoreExtension
             .AddSingleton<ICustomerUseCase, CustomerUseCase>()
             .AddSingleton<IMenuUseCase, MenuUseCase>()
             .AddSingleton<IOrderUseCase, OrderUseCase>()
+            .AddSingleton<IPaymentUseCase, PaymentUseCase>()
             .AddSingleton<IStockUseCase, StockUseCase>()
             ;
 
