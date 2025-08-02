@@ -21,6 +21,7 @@ public static class AdapterExtension
             .AddSingleton<ICustomerController, CustomerController>()
             .AddSingleton<IMenuController, MenuController>()
             .AddSingleton<IOrderController, OrderController>()
+            .AddSingleton<IPaymentController, PaymentController>()
             ;
 
         return services;

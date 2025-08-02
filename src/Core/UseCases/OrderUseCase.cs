@@ -11,14 +11,12 @@ public class OrderUseCase : IOrderUseCase
 {
     private const string PAYMENT_REFUSED_REASON = "Payment refused.";
     private readonly IOrderGateway _orderGateway;
-    private readonly IPaymentGateway _paymentGateway;
+    private readonly IPaymentUseCase _paymentUseCase;
 
-    public OrderUseCase(
-        IOrderGateway orderGateway,
-        IPaymentGateway paymentGateway)
+    public OrderUseCase(IOrderGateway orderGateway, IPaymentUseCase paymentUseCase)
     {
         _orderGateway = orderGateway;
-        _paymentGateway = paymentGateway;
+        _paymentUseCase = paymentUseCase;
     }
 
     public async Task<Order> GetValidatedOrderForCheckoutAsync(string id, PaymentMethod paymentType, CancellationToken cancellationToken)
@@ -35,22 +33,13 @@ public class OrderUseCase : IOrderUseCase
 
         order.PaymentMethod = paymentMethod;
 
-        var orderPayment = await CreateOrderPaymentAsync(order, customer, cancellationToken);
+        var orderPayment = await _paymentUseCase.CreateOrderPaymentAsync(order, customer, cancellationToken);
 
         order.SetPayment(orderPayment);
 
         await _orderGateway.UpdatePaymentAsync(order!.Id!, order.PaymentMethod, order.Payment!, cancellationToken);
 
         return order;
-    }
-
-    public Task<OrderPayment> CreateOrderPaymentAsync(Order order, Customer? customer, CancellationToken cancellationToken)
-    {
-        return _paymentGateway.CreatePaymentAsync(
-            order,
-            customer,
-            order.PaymentMethod,
-            cancellationToken);
     }
 
     public Task<Order> CreateOrderAsync(Order order, CancellationToken cancellationToken)
@@ -89,45 +78,18 @@ public class OrderUseCase : IOrderUseCase
         return await _orderGateway.UpdateStatusAsync(id, status, cancellationToken);
     }
 
-    public async Task ProcessPaymentAsync(string id, PaymentStatus paymentStatus, CancellationToken cancellationToken)
+    public async Task SetConfirmationOrderPaymentAsync(Order order, CancellationToken cancellationToken)
     {
-        InvalidPaymentStatusException.ThrowIfInvalidStatus(paymentStatus);
-
-        var order = await GetByIdAsync(id, cancellationToken);
-        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
-
-        switch (paymentStatus)
-        {
-            case PaymentStatus.Approved:
-                await ConfirmPaymentAsync(id, cancellationToken);
-                break;
-            case PaymentStatus.Refused:
-                await SetPaymentRefusalAsync(id, cancellationToken);
-                break;
-            default:
-                throw new InvalidPaymentProcessingException();
-        }
-    }
-
-    private async Task<Order> ConfirmPaymentAsync(string id, CancellationToken cancellationToken)
-    {
-        var order = await GetByIdAsync(id, cancellationToken);
-        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
-
         order!.ConfirmPayment();
 
-        return await _orderGateway.UpdateStatusAsync(id, order.Status, cancellationToken);
+        await _orderGateway.UpdateStatusAsync(order.Id!, order.Status, cancellationToken);
     }
 
-
-    private async Task SetPaymentRefusalAsync(string id, CancellationToken cancellationToken)
+    public async Task SetRefusalOrderPaymentAsync(Order order, CancellationToken cancellationToken)
     {
-        var order = await GetByIdAsync(id, cancellationToken);
-        OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
-
         order!.Cancel(PAYMENT_REFUSED_REASON);
 
-        await _orderGateway.UpdateStatusAsync(id, order.Status, order.Notes, cancellationToken);
+        await _orderGateway.UpdateStatusAsync(order.Id!, order.Status, order.Notes, cancellationToken);
     }
 
     private static void ValidateOrderForCheckout(string id, PaymentMethod paymentType, Order? order)

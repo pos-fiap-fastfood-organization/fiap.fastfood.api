@@ -39,7 +39,8 @@ static void ConfigureServices(IServiceCollection services)
 static void ConfigureCore(IServiceCollection services)
 {
     services
-        .AddUserCases();
+        .AddUserCases()
+        .AddFactories();
 }
 
 static void ConfigureAdapter(IServiceCollection services)
