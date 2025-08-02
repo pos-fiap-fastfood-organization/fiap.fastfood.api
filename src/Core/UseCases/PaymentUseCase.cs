@@ -3,20 +3,20 @@ using Core.Entities.Enums;
 using Core.Exceptions;
 using Core.Gateways.Interfaces;
 using Core.UseCases.Exceptions;
+using Core.UseCases.Factories.Interfaces;
 using Core.UseCases.Interfaces;
 
 namespace Core.UseCases
 {
     public class PaymentUseCase : IPaymentUseCase
     {
-        private const string PAYMENT_REFUSED_REASON = "Payment refused.";
         private readonly IPaymentGateway _paymentGateway;
-        private readonly IOrderGateway _orderGateway;
+        private readonly IOrderUseCaseFactory _orderUseCaseFactory;
 
-        public PaymentUseCase(IPaymentGateway paymentGateway, IOrderGateway ordergateway)
+        public PaymentUseCase(IPaymentGateway paymentGateway, IOrderUseCaseFactory orderUseCaseFactory)
         {
             _paymentGateway = paymentGateway;
-            _orderGateway = ordergateway;
+            _orderUseCaseFactory = orderUseCaseFactory;
         }
 
         public Task<OrderPayment> CreateOrderPaymentAsync(Order order, Customer? customer, CancellationToken cancellationToken)
@@ -32,34 +32,22 @@ namespace Core.UseCases
         {
             InvalidPaymentStatusException.ThrowIfInvalidStatus(paymentStatus);
 
-            var order = await _orderGateway.GetByIdAsync(id, cancellationToken);
+            var orderUseCase = _orderUseCaseFactory.Create();
+
+            var order = await orderUseCase.GetByIdAsync(id, cancellationToken);
             OrderNotFoundException.ThrowIfNullOrEmpty(id, order);
 
             switch (paymentStatus)
             {
                 case PaymentStatus.Approved:
-                    await SetConfirmationOrderPaymentAsync(order!, cancellationToken);
+                    await orderUseCase.SetConfirmationOrderPaymentAsync(order!, cancellationToken);
                     break;
                 case PaymentStatus.Refused:
-                    await SetRefusalOrderPaymentAsync(order!, cancellationToken);
+                    await orderUseCase.SetRefusalOrderPaymentAsync(order!, cancellationToken);
                     break;
                 default:
                     throw new InvalidPaymentProcessingException();
             }
-        }
-
-        private async Task SetConfirmationOrderPaymentAsync(Order order, CancellationToken cancellationToken)
-        {
-            order!.ConfirmPayment();
-
-            await _orderGateway.UpdateStatusAsync(order.Id!, order.Status, cancellationToken);
-        }
-
-        private async Task SetRefusalOrderPaymentAsync(Order order, CancellationToken cancellationToken)
-        {
-            order!.Cancel(PAYMENT_REFUSED_REASON);
-
-            await _orderGateway.UpdateStatusAsync(order.Id!, order.Status, order.Notes, cancellationToken);
         }
     }
 }

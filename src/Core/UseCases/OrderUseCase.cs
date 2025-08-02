@@ -9,6 +9,7 @@ namespace Core.UseCases;
 
 public class OrderUseCase : IOrderUseCase
 {
+    private const string PAYMENT_REFUSED_REASON = "Payment refused.";
     private readonly IOrderGateway _orderGateway;
     private readonly IPaymentUseCase _paymentUseCase;
 
@@ -75,6 +76,20 @@ public class OrderUseCase : IOrderUseCase
         InvalidOrderStatusException.ThrowIfInvalidStatus(status);
 
         return await _orderGateway.UpdateStatusAsync(id, status, cancellationToken);
+    }
+
+    public async Task SetConfirmationOrderPaymentAsync(Order order, CancellationToken cancellationToken)
+    {
+        order!.ConfirmPayment();
+
+        await _orderGateway.UpdateStatusAsync(order.Id!, order.Status, cancellationToken);
+    }
+
+    public async Task SetRefusalOrderPaymentAsync(Order order, CancellationToken cancellationToken)
+    {
+        order!.Cancel(PAYMENT_REFUSED_REASON);
+
+        await _orderGateway.UpdateStatusAsync(order.Id!, order.Status, order.Notes, cancellationToken);
     }
 
     private static void ValidateOrderForCheckout(string id, PaymentMethod paymentType, Order? order)
