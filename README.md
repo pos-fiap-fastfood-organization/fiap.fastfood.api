@@ -32,7 +32,7 @@ Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete
 
 ---
 
-## 🚀 Como executar o projeto
+## 🚀 Como executar o projeto - Ambiente Docker | docker-compose
 
 ### Pré-requisitos
 
@@ -40,7 +40,9 @@ Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete
 
 ### Passos
 
-1. Subir o ambiente completo (API + MongoDB + mongo-express):
+1. Abrir terminal na raiz do projeto
+
+2. Subir o ambiente completo (API + MongoDB + mongo-express):
 
    Comando:
 
@@ -54,15 +56,14 @@ Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete
    - Inicializar o Swagger na API  
    - Disponibilizar o banco de dados com nome `fiap_fastfood`
 
-2. Encerrar os serviços:
+3. Encerrar os serviços:
 
    Comando:
    ```bash
    docker-compose down -v
    ```
----
 
-## 🧪 Acessos úteis
+## 🧪 Acessos úteis | docker-compose
 
 - Swagger UI: [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
 - Mongo Express: [http://localhost:8081](http://localhost:8081)
@@ -70,45 +71,61 @@ Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete
 
 ---
 
+## 🚀 Como executar o projeto - Ambiente Docker + kubernates 
+
+### Pré-requisitos
+
+- Docker instalado
+- Habilitar o kubernetes no Docker Desktop
+
+### Passos
+
+1. Abrir terminal na raiz do projeto
+
+2. navegar até a pasta k8s
+
+2. Na pasta, subir o ambiente completo no cluster (API + mongo):
+
+   Comando:
+
+   ```bash
+	kubectl apply -f .
+   ```
+
+   Isso irá:  
+   - Criar as secrets necessárias para a aplicação API 
+   - Criar as secrets necessárias para o banco de dados MongoDB
+   - Criar os configmaps necessários para a aplicação API
+   - Criar os configmaps necessários para o banco de dados MongoDB contendo o seed de dados.
+   - Criar os deployments para a aplicação API e o banco de dados MongoDB
+   - Criar os services para a aplicação API e o banco de dados MongoDB serem expostos externamente
+   - Criar os HPA (Horizontal Pod Autoscaler) para a aplicação API 
+
+3. Encerrar os resources:
+
+   Comando:
+   ```bash
+   kubectl delete all --all
+   ```
+
+## 🧪 Acessos úteis | kubernetes
+
+- Swagger UI: [http://localhost:30007/swagger/index.html](http://localhost:30007/swagger/index.html)
+- Mongo Compass : mongodb://fastfood_user:Fastfood2025@localhost:30017/fiap_fastfood
+  - Banco: `fiap_fastfood`
+
+
+---
+
 ## 📂 Estrutura de Pastas (Arquitetura Limpa)
 
 src/  
-├── Adapters/  
-│   ├── Driven/  
-│   │   ├── DataAccess/  
-│   │   │   └── MongoAdapter/  
-│   │   ├── Kitchen.Infra/  
-│   │   ├── Menu.Infra/  
-│   │   ├── Order.Infra/  
-│   │   ├── Payment.Infra/  
-│   │   ├── SelfService.Infra/  
-│   │   └── Stock.Infra/  
-│   └── Driving/  
+├── Drivers/  
 │       └── Api/  
+│       └── Infrastructure/  
 ├── Core/  
-│   ├── Kitchen/  
-│   │   ├── Kitchen.Application/  
-│   │   └── Kitchen.Domain/  
-│   ├── Menu/  
-│   │   ├── Menu.Application/  
-│   │   └── Menu.Domain/  
-│   ├── Order/  
-│   │   ├── Order.Application/  
-│   │   └── Order.Domain/  
-│   ├── Payment/  
-│   │   ├── Payment.Application/  
-│   │   └── Payment.Domain/  
-│   ├── SelfService/  
-│   │   ├── SelfService.Application/  
-│   │   └── SelfService.Domain/  
-│   └── Stock/  
-│       ├── Stock.Application/  
-│       └── Stock.Domain/  
-├── CrossCutting/  
-│   └── CrossCutting.Exceptions/  
+├── Adapters/  
 db/
-
-
 
 ---
 
@@ -124,41 +141,42 @@ db/
 | POST   | /SelfService/customer         | Cadastra um novo cliente                     |
 | GET    | /SelfService/customer/[cpf]   | Busca cliente por CPF                        |
 | GET    | /Order                        | Consultar pedido paginado                    |
+| GET    | /Order/pending				 | Consultar todos os pedidos pendentes			|
 | POST   | /Order                        | Criar pedido                                 |
 | GET    | /Order/[id]                   | Consultar pedido por ID                      |
+| GET    | /Order/[id]/paymentstatus     | Consultar status do pedido por ID            |
 | DELETE | /Order/[id]                   | Deletar pedido por ID                        |
 | PATCH  | /Order/[id]                   | Atualizar itens do pedido por ID             |
 | POST   | /Order/[id]/checkout          | obtém dados para pagamento                   |
-| GET    | /Order/[id]/confirm-payment   | Confirmar Pagamento							|
+| GET    | /payment/webhook              | Processar status do pagamento				|
 
 
-ℹ️ Para mais detalhes, acesse o [Swagger](http://localhost:8080/swagger/index.html).
+ℹ️ Para mais detalhes, acesse o Swagger
+	[Swagger-local](http://localhost:5291/swagger/index.html).
+	[Swagger-docker-compose](http://localhost:8080/swagger/index.html).
+	[Swagger-kubernetes](http://localhost:30007/swagger/index.html).
 
 ---
 
 ## 🧠 Arquitetura
 
-A aplicação segue princípios de Domain-Driven Design (DDD) e Arquitetura Hexagonal, separando claramente:
+A aplicação segue princípios de Arquitetura limpa, separando claramente:
 
-- Lógica de domínio  
-- Casos de uso  
-- Interfaces de entrada (API)  
-- Interfaces de saída (MongoDB)  
+Adapter
+	- Controller para orquestração dos casos de uso e adaptar a entrada e saída de dados
+	- Gateways para comunicação com serviços externos (ex: Mercado Pago | MongoDB)
+	- Presenters para formatação da requisição e requição da API
+Core
+	- Casos de uso que implementam a lógica de negócio se comunicando com outros casos de uso e manipulando entidades
+	- Entidades que representam os modelos de domínio
+Infrastructure
+	- Implementação das injeções de dependência (ex: MongoDB)
 
 ---
 
 ## 📥 Seed de dados
 
 O script `db/init/init.js` popula o banco com os itens de menu iniciais automaticamente ao subir os containers.
-
----
-
-## 🛑 Encerrando o ambiente
-
-Comando:
-```bash
-docker-compose down -v
-```
 
 ---
 
