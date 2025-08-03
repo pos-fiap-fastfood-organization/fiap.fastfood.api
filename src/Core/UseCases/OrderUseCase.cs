@@ -9,6 +9,7 @@ namespace Core.UseCases;
 
 public class OrderUseCase : IOrderUseCase
 {
+    private const string PAYMENT_REFUSED_REASON = "Payment refused.";
     private readonly IOrderGateway _orderGateway;
     private readonly IPaymentUseCase _paymentUseCase;
 
