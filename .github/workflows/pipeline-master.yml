@@ -22,9 +22,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
     
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-    
+      - name: Run tests
+        run: dotnet test Fiap.FastFood.sln --configuration Release --verbosity normal
+        
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
     
