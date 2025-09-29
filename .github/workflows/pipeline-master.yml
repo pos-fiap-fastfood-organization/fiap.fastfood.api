@@ -3,8 +3,7 @@ name: Pipeline
 on:
   push:
     branches:
-    - master
-  pull_request:
+      - master
 
 jobs:
   build-and-push:
@@ -13,31 +12,53 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-    
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-    
+
       - name: Restore dependencies
         run: dotnet restore
-    
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
       - name: Run tests
         run: dotnet test Fiap.FastFood.sln --configuration Release --verbosity normal
-    
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-    
+
       - name: Build Docker image
         run: |
-          IMAGE_TAG=${GITHUB_SHA}
-          docker build -f src/Drivers/Api/Dockerfile -t ${{ secrets.DOCKER_HUB_REPOSITORY }}:${IMAGE_TAG} .
-    
-      - name: Push Docker image to Docker Hub
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+          IMAGE_NAME=${{ secrets.DOCKER_HUB_REPOSITORY }}
+          IMAGE_TAG=${{ github.sha }}
+
+          # build com duas tags
+          docker build -f src/Drivers/Api/Dockerfile \
+            -t $IMAGE_NAME:$IMAGE_TAG \
+            -t $IMAGE_NAME:latest .
+
+      - name: Push Docker image
         run: |
-          IMAGE_TAG=${GITHUB_SHA}
-          docker push ${{ secrets.DOCKER_HUB_REPOSITORY }}:latest
+          IMAGE_NAME=${{ secrets.DOCKER_HUB_REPOSITORY }}
+          IMAGE_TAG=${{ github.sha }}
+
+          # push as duas tags
+          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push $IMAGE_NAME:latest
+
+      - name: Trigger Infra Deploy
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: pos-fiap-fastfood-organization/pos-fiap-fast-food-terraform
+          event-type: deploy-api
+          client-payload: |
+            {
+              "image": "${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}"
+            }
