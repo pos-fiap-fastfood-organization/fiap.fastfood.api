@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -56,7 +57,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GH_PAT }}
-          repository: pos-fiap-fastfood-organization/pos-fiap-fast-food-terraform
+          repository: pos-fiap-fastfood-organization/fiap.fastfood.infra.api.terraform
           event-type: deploy-api
           client-payload: |
             {
