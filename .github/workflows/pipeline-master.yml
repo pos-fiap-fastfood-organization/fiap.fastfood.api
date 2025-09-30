@@ -51,3 +51,14 @@ jobs:
           # push as duas tags
           docker push $IMAGE_NAME:$IMAGE_TAG
           docker push $IMAGE_NAME:latest
+
+      - name: Trigger Infra Deploy
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: pos-fiap-fastfood-organization/pos-fiap-fast-food-terraform
+          event-type: deploy-api
+          client-payload: |
+            {
+              "image": "${{ secrets.DOCKER_HUB_REPOSITORY }}:${{ github.sha }}"
+            }
