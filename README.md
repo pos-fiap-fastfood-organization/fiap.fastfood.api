@@ -137,9 +137,7 @@ db/
 | POST   | /Menu                         | Criação de um novo menu                      |
 | GET    | /Menu/[id]                    | Consultar item de menu pelo ID               |
 | PUT    | /Menu/[id]                    | Atualizar item de menu pelo ID               |
-| DELETE | /Menu/[id]                    | deletar item de menu pelo ID                 |
-| POST   | /SelfService/customer         | Cadastra um novo cliente                     |
-| GET    | /SelfService/customer/[cpf]   | Busca cliente por CPF                        |
+| DELETE | /Menu/[id]                    | deletar item de menu pelo ID                 |                     |
 | GET    | /Order                        | Consultar pedido paginado                    |
 | GET    | /Order/pending				 | Consultar todos os pedidos pendentes			|
 | POST   | /Order                        | Criar pedido                                 |

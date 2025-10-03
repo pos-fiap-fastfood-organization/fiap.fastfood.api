@@ -14,17 +14,6 @@ public class CustomerMongoDbGateway : MongoGatewayBase<CustomerMongoDb>, ICustom
 
     }
 
-    public async Task<CustomerMongoDb?> GetByCpfAsync(string cpf, CancellationToken cancellationToken)
-    {
-        var filter = Builders<CustomerMongoDb>.Filter.Eq(e => e.CPF, cpf);
-
-        var options = new FindOptions();
-
-        var customer = await _collection.Find(filter, options).FirstOrDefaultAsync(cancellationToken);
-
-        return customer;
-    }
-
     public async Task<CustomerMongoDb?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var filter = Builders<CustomerMongoDb>.Filter.Eq(e => e.Id, id);

@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\..\src\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCaseTests\CustomerUseCaseTests\Methods\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,0 @@
-﻿using Adapters.Presenters.Customers;
-
-namespace Adapters.Controllers.Interfaces;
-
-public interface ICustomerController
-{
-    Task<CustomerResponse> GetByCpfAsync(string cpf, CancellationToken cancellationToken);
-    Task<CustomerResponse> RegisterAsync(RegisterCustomerRequest request, CancellationToken cancellationToken);
-}

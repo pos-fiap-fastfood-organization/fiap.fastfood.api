@@ -18,7 +18,6 @@ public static class AdapterExtension
     public static IServiceCollection AddCoreControllers(this IServiceCollection services)
     {
         services
-            .AddSingleton<ICustomerController, CustomerController>()
             .AddSingleton<IMenuController, MenuController>()
             .AddSingleton<IOrderController, OrderController>()
             .AddSingleton<IPaymentController, PaymentController>()

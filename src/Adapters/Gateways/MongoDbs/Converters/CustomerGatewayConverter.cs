@@ -14,13 +14,6 @@ public class CustomerGatewayConverter : ICustomerGateway
         _repository = repository;
     }
 
-    public async Task<Customer?> GetByCpfAsync(string cpf, CancellationToken cancellationToken)
-    {
-        var customerMongoDb = await _repository.GetByCpfAsync(cpf, cancellationToken);
-
-        return customerMongoDb?.ToCore();
-    }
-
     public async Task<Customer?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var customerMongoDb = await _repository.GetByIdAsync(id, cancellationToken);

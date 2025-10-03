@@ -13,23 +13,6 @@ public class CustomerUseCase : ICustomerUseCase
         _customerGateway = customerGateway;
     }
 
-    public async Task<Customer> GetByCpfAsync(string cpf, CancellationToken cancellationToken)
-    {
-        if (string.IsNullOrWhiteSpace(cpf))
-        {
-            throw new ArgumentNullException(nameof(cpf));
-        }
-
-        var customer = await _customerGateway.GetByCpfAsync(cpf, cancellationToken);
-
-        if (customer is null)
-        {
-            throw new ApplicationException("customer does not exist");
-        }
-
-        return customer;
-    }
-
     public async Task<Customer?> GetByIdAsync(string? id, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(id))
@@ -40,19 +23,5 @@ public class CustomerUseCase : ICustomerUseCase
         var customer = await _customerGateway.GetByIdAsync(id, cancellationToken);
 
         return customer;
-    }
-
-    public async Task<Customer> InsertOneAsync(Customer newCustomer, CancellationToken cancellationToken)
-    {
-        var customer = await _customerGateway.GetByCpfAsync(newCustomer.CPF!, cancellationToken);
-
-        if (customer is not null)
-        {
-            throw new ApplicationException("customer already exist");
-        }
-
-        var insertedCustomer = await _customerGateway.InsertOneAsync(newCustomer, cancellationToken);
-
-        return insertedCustomer;
     }
 }
