@@ -8,7 +8,6 @@ Projeto desenvolvido para o Tech Challenge da FIAP Pós-Tech, com foco na constr
 
 Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete que opera por meio de totens de autoatendimento (*kiosks*), oferecendo:
 
-- Cadastro e identificação de clientes
 - Visualização e montagem de pedidos via menu digital
 - Integração com gateway de pagamento (Mercado Pago - QR Code)
 - Acompanhamento do pedido até a retirada

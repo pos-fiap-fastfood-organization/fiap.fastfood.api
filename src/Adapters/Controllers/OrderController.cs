@@ -93,9 +93,9 @@ public class OrderController : IOrderController
         }
 
         var order = await _orderUseCase.GetValidatedOrderForCheckoutAsync(id, request.PaymentType, cancellationToken);
-        var customer = await _customerUseCase.GetByIdAsync(order.CustomerId, cancellationToken);
+        //var customer = await _customerUseCase.GetByIdAsync(order.CustomerId, cancellationToken);
 
-        var checkoutOrder = await _orderUseCase.CheckoutAsync(order, customer, request.PaymentType, cancellationToken);
+        var checkoutOrder = await _orderUseCase.CheckoutAsync(order, null, request.PaymentType, cancellationToken);
 
         var response = new OrderCheckoutResponse(checkoutOrder.Payment!);
 
