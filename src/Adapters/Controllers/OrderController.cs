@@ -10,15 +10,12 @@ public class OrderController : IOrderController
 {
     private readonly IStockUseCase _stockUseCase;
     private readonly IOrderUseCase _orderUseCase;
-    private readonly ICustomerUseCase _customerUseCase;
 
     public OrderController(
-        ICustomerUseCase customerUseCase,
         IStockUseCase stockUseCase,
         IOrderUseCase orderUseCase)
     {
         _orderUseCase = orderUseCase;
-        _customerUseCase = customerUseCase;
         _stockUseCase = stockUseCase;
     }
 
@@ -93,9 +90,8 @@ public class OrderController : IOrderController
         }
 
         var order = await _orderUseCase.GetValidatedOrderForCheckoutAsync(id, request.PaymentType, cancellationToken);
-        var customer = await _customerUseCase.GetByIdAsync(order.CustomerId, cancellationToken);
 
-        var checkoutOrder = await _orderUseCase.CheckoutAsync(order, customer, request.PaymentType, cancellationToken);
+        var checkoutOrder = await _orderUseCase.CheckoutAsync(order, request.PaymentType, cancellationToken);
 
         var response = new OrderCheckoutResponse(checkoutOrder.Payment!);
 

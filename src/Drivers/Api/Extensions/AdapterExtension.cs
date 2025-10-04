@@ -18,7 +18,6 @@ public static class AdapterExtension
     public static IServiceCollection AddCoreControllers(this IServiceCollection services)
     {
         services
-            .AddSingleton<ICustomerController, CustomerController>()
             .AddSingleton<IMenuController, MenuController>()
             .AddSingleton<IOrderController, OrderController>()
             .AddSingleton<IPaymentController, PaymentController>()
@@ -70,13 +69,11 @@ public static class AdapterExtension
     private static void AddMongoDbs(IServiceCollection services)
     {
         services
-            .AddSingleton<ICustomerGateway, CustomerGatewayConverter>()
             .AddSingleton<IMenuGateway, MenuGatewayConverter>()
             .AddSingleton<IOrderGateway, OrderGatewayConverter>()
             ;
 
         services
-            .AddSingleton<ICustomerMongoDbGateway, CustomerMongoDbGateway>()
             .AddSingleton<IMenuMongoDbGateway, MenuMongoDbGateway>()
             .AddSingleton<IOrderMongoDbGateway, OrderMongoDbGateway>()
             ;

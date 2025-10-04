@@ -27,13 +27,13 @@ public class OrderUseCase : IOrderUseCase
         return order!;
     }
 
-    public async Task<Order> CheckoutAsync(Order order, Customer? customer, PaymentMethod paymentMethod, CancellationToken cancellationToken)
+    public async Task<Order> CheckoutAsync(Order order, PaymentMethod paymentMethod, CancellationToken cancellationToken)
     {
         ValidateOrderForCheckout(order.Id!, paymentMethod, order);
 
         order.PaymentMethod = paymentMethod;
 
-        var orderPayment = await _paymentUseCase.CreateOrderPaymentAsync(order, customer, cancellationToken);
+        var orderPayment = await _paymentUseCase.CreateOrderPaymentAsync(order, cancellationToken);
 
         order.SetPayment(orderPayment);
 

@@ -20,10 +20,10 @@ public record MercadoPagoPaymentRequest
     [JsonPropertyName("notification_url")]
     public string NotificationUrl { get; set; }
 
-    public MercadoPagoPaymentRequest(Order order, Customer? customer)
+    public MercadoPagoPaymentRequest(Order order)
     {
         TransactionAmount = order.TotalPrice;
-        Payer = new MercadoPagoPayer(customer);
+        Payer = new MercadoPagoPayer();
         NotificationUrl = "https://webhook-test.com/?address=ce597306d08801680062ad913e9d50cb";
         PaymentMethodId = order.PaymentMethod.ToString().ToLower();
 

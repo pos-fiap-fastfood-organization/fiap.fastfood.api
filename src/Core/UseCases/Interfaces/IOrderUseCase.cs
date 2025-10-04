@@ -5,7 +5,7 @@ namespace Core.UseCases.Interfaces;
 
 public interface IOrderUseCase
 {
-    Task<Order> CheckoutAsync(Order order, Customer? customer, PaymentMethod paymentMethod, CancellationToken cancellationToken);
+    Task<Order> CheckoutAsync(Order order, PaymentMethod paymentMethod, CancellationToken cancellationToken);
 
     Task<Order> CreateOrderAsync(Order order, CancellationToken cancellationToken);
 

@@ -8,7 +8,6 @@ Projeto desenvolvido para o Tech Challenge da FIAP Pós-Tech, com foco na constr
 
 Este sistema tem como objetivo gerenciar o processo de pedidos em uma lanchonete que opera por meio de totens de autoatendimento (*kiosks*), oferecendo:
 
-- Cadastro e identificação de clientes
 - Visualização e montagem de pedidos via menu digital
 - Integração com gateway de pagamento (Mercado Pago - QR Code)
 - Acompanhamento do pedido até a retirada
@@ -138,8 +137,6 @@ db/
 | GET    | /Menu/[id]                    | Consultar item de menu pelo ID               |
 | PUT    | /Menu/[id]                    | Atualizar item de menu pelo ID               |
 | DELETE | /Menu/[id]                    | deletar item de menu pelo ID                 |
-| POST   | /SelfService/customer         | Cadastra um novo cliente                     |
-| GET    | /SelfService/customer/[cpf]   | Busca cliente por CPF                        |
 | GET    | /Order                        | Consultar pedido paginado                    |
 | GET    | /Order/pending				 | Consultar todos os pedidos pendentes			|
 | POST   | /Order                        | Criar pedido                                 |

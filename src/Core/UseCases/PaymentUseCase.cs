@@ -19,11 +19,10 @@ namespace Core.UseCases
             _orderUseCaseFactory = orderUseCaseFactory;
         }
 
-        public Task<OrderPayment> CreateOrderPaymentAsync(Order order, Customer? customer, CancellationToken cancellationToken)
+        public Task<OrderPayment> CreateOrderPaymentAsync(Order order, CancellationToken cancellationToken)
         {
             return _paymentGateway.CreatePaymentAsync(
                 order,
-                customer,
                 order.PaymentMethod,
                 cancellationToken);
         }

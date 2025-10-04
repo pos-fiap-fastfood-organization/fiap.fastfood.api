@@ -15,9 +15,9 @@ public class MercadoPagoGatewayConverter : IPaymentGateway
         _mercadoPagoClientGateway = mercadoPagoClientGateway;
     }
 
-    public async Task<OrderPayment> CreatePaymentAsync(Order order, Customer? customer, PaymentMethod paymentMethod, CancellationToken cancellationToken)
+    public async Task<OrderPayment> CreatePaymentAsync(Order order, PaymentMethod paymentMethod, CancellationToken cancellationToken)
     {
-        var paymentRequest = new MercadoPagoPaymentRequest(order, customer);
+        var paymentRequest = new MercadoPagoPaymentRequest(order);
 
         var paymentResponse = await _mercadoPagoClientGateway.CreatePaymentAsync(paymentRequest, paymentMethod, cancellationToken);
 
