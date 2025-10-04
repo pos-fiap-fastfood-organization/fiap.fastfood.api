@@ -69,13 +69,11 @@ public static class AdapterExtension
     private static void AddMongoDbs(IServiceCollection services)
     {
         services
-            .AddSingleton<ICustomerGateway, CustomerGatewayConverter>()
             .AddSingleton<IMenuGateway, MenuGatewayConverter>()
             .AddSingleton<IOrderGateway, OrderGatewayConverter>()
             ;
 
         services
-            .AddSingleton<ICustomerMongoDbGateway, CustomerMongoDbGateway>()
             .AddSingleton<IMenuMongoDbGateway, MenuMongoDbGateway>()
             .AddSingleton<IOrderMongoDbGateway, OrderMongoDbGateway>()
             ;

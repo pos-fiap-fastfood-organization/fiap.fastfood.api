@@ -5,7 +5,7 @@ namespace Core.UseCases.Interfaces
 {
     public interface IPaymentUseCase
     {
-        Task<OrderPayment> CreateOrderPaymentAsync(Order order, Customer? customer, CancellationToken cancellationToken);
+        Task<OrderPayment> CreateOrderPaymentAsync(Order order, CancellationToken cancellationToken);
         Task ProcessPaymentAsync(string id, PaymentStatus paymentStatus, CancellationToken cancellationToken);
     }
 }
