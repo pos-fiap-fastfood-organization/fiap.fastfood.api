@@ -24,13 +24,4 @@ public class CustomerMongoDbGateway : MongoGatewayBase<CustomerMongoDb>, ICustom
 
         return customer;
     }
-
-    public async Task<CustomerMongoDb> InsertOneAsync(CustomerMongoDb customerMongoDb, CancellationToken cancellationToken)
-    {
-        var options = new InsertOneOptions();
-
-        await _collection.InsertOneAsync(customerMongoDb, options, cancellationToken);
-
-        return customerMongoDb;
-    }
 }
